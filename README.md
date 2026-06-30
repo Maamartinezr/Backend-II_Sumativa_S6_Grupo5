@@ -378,7 +378,7 @@ El repositorio menciona uso de **Jenkins**, por lo que puede integrarse en un fl
 Un pipeline en Jenkins podría incluir pasos como:
 
 1. Checkout del código
-2. `mvn clean install`
+2. `.\mvnw.cmd clean install`
 3. `.\mvnw.cmd clean test`
 4. Publicación de resultados
 
