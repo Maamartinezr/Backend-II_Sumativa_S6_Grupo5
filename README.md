@@ -305,25 +305,25 @@ Si el proyecto usa base de datos, también necesitarás el motor correspondiente
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/Maamartinezr/Backend-II_Sumativa_S6-.git
+git clone  https://github.com/Maamartinezr/Backend-II_Sumativa_S6_Grupo5.git
 ```
 
 ### 2. Entrar al proyecto
 
 ```bash
-cd Backend-II_Sumativa_S6-
+cd Backend-II_Sumativa_S6_Grupo5
 ```
 
 ### 3. Compilar el proyecto
 
 ```bash
-mvn clean install
+.\mvnw.cmd clean install
 ```
 
 ### 4. Ejecutar la aplicación
 
 ```bash
-mvn spring-boot:run
+.\mvnw.cmd spring-boot:run
 ```
 
 O ejecutar directamente la clase principal:
@@ -341,6 +341,7 @@ Para ejecutar las pruebas unitarias:
 ```bash
 .\mvnw.cmd verify
 ```
+Para ejecutar el ciclo completo de validación del proyecto (compilación, pruebas y verificaciones):
 
 ```bash
 .\mvnw.cmd clean test
