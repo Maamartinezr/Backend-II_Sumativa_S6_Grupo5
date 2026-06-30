@@ -378,7 +378,7 @@ Un pipeline en Jenkins podría incluir pasos como:
 
 1. Checkout del código
 2. `mvn clean install`
-3. `.\mvnw.cmd verify o .\mvnw.cmd clean test`
+3. `.\mvnw.cmd clean test`
 4. Publicación de resultados
 
 ---
