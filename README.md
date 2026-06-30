@@ -264,7 +264,11 @@ com.minimarket.MinimarketApplication
 Para ejecutar las pruebas unitarias:
 
 ```bash
-mvn test
+.\mvnw.cmd verify
+```
+
+```bash
+.\mvnw.cmd clean test
 ```
 
 ---
