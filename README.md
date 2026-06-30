@@ -374,8 +374,8 @@ El repositorio menciona uso de **Jenkins**, por lo que puede integrarse en un fl
 - Ejecutar pruebas
 - Validar calidad antes de desplegar
 
-### Sugerencia de pipeline básico
-Un pipeline en Jenkins podría incluir pasos como:
+### Sugerencia de pipeline/job básico
+Un pipeline/job en Jenkins podría incluir pasos como:
 
 1. Checkout del código
 2. `.\mvnw.cmd clean install`
