@@ -60,20 +60,95 @@ El proyecto está implementado en **Spring Boot** y organiza la lógica mediante
 ## Estructura general del proyecto
 
 ```bash
-minimarket_S6/
+MINIMARKET_S6/
+│
+├── .github/                    # Configuraciones de GitHub
+├── .idea/                      # Archivos de configuración de IntelliJ IDEA
+├── .mvn/                       # Archivos de configuración del Maven Wrapper
+├── .vscode/                    # Configuración del editor Visual Studio Code
+│
 ├── src/
 │   ├── main/
 │   │   ├── java/com/minimarket/
-│   │   │   ├── controller/
-│   │   │   ├── entity/
-│   │   │   ├── repository/
+│   │   │
+│   │   ├── controller/         # Controladores REST de la aplicación
+│   │   │
+│   │   ├── entity/             # Entidades del modelo de negocio
+│   │   │   ├── Carrito.java
+│   │   │   ├── Categoria.java
+│   │   │   ├── DetalleVenta.java
+│   │   │   ├── Inventario.java
+│   │   │   ├── Producto.java
+│   │   │   ├── Rol.java
+│   │   │   ├── Usuario.java
+│   │   │   └── Venta.java
+│   │   │
+│   │   ├── repository/         # Acceso a datos mediante Spring Data JPA
+│   │   │   ├── CarritoRepository.java
+│   │   │   ├── CategoriaRepository.java
+│   │   │   ├── DetalleVentaRepository.java
+│   │   │   ├── InventarioRepository.java
+│   │   │   ├── ProductoRepository.java
+│   │   │   ├── RolRepository.java
+│   │   │   ├── UsuarioRepository.java
+│   │   │   └── VentaRepository.java
+│   │   │
+│   │   ├── security/           # Componentes de seguridad y autenticación
+│   │   │   ├── config/
+│   │   │   │   └── SecurityConfig.java
+│   │   │   ├── model/
+│   │   │   │   ├── CustomUserDetails.java
+│   │   │   │   └── LoginRequest.java
 │   │   │   ├── service/
-│   │   │   ├── service/impl/
-│   │   │   └── security/
-│   │   └── resources/
-│   └── test/
-│       └── java/com/minimarket/
-├── pom.xml
+│   │   │   │   └── CustomUserDetailsService.java
+│   │   │   └── util/
+│   │   │       └── JwtUtil.java
+│   │   │
+│   │   ├── service/            # Lógica de negocio
+│   │   │   ├── impl/           # Implementación de servicios
+│   │   │   │   ├── CarritoServiceImpl.java
+│   │   │   │   ├── CategoriaServiceImpl.java
+│   │   │   │   ├── DetalleVentaServiceImpl.java
+│   │   │   │   ├── InventarioServiceImpl.java
+│   │   │   │   ├── ProductoServiceImpl.java
+│   │   │   │   ├── RolServiceImpl.java
+│   │   │   │   ├── UsuarioServiceImpl.java
+│   │   │   │   └── VentaServiceImpl.java
+│   │   │   │
+│   │   │   ├── CarritoService.java
+│   │   │   ├── CategoriaService.java
+│   │   │   ├── DetalleVentaService.java
+│   │   │   ├── InventarioService.java
+│   │   │   ├── ProductoService.java
+│   │   │   ├── RolService.java
+│   │   │   ├── UsuarioService.java
+│   │   │   └── VentaService.java
+│   │   │
+│   │   ├── util/               # Clases utilitarias de apoyo
+│   │   │
+│   │   └── MinimarketApplication.java
+│   │
+│   └── resources/
+│       └── application.properties
+│
+├── src/test/java/com/minimarket/
+│   ├── CarritoServiceImplTest.java
+│   ├── ControllerLayerTest.java
+│   ├── CustomUserDetailsServiceTest.java
+│   ├── DetalleVentaTest.java
+│   ├── EntityJpaIdentityTest.java
+│   ├── InventarioServiceImplTest.java
+│   ├── MinimarketApplicationTests.java
+│   ├── SecurityConfigAuthorizationTest.java
+│   ├── UsuarioServiceImplTest.java
+│   └── VentaServiceImplTest.java
+│
+├── target/                     # Archivos compilados generados por Maven
+├── .gitattributes
+├── .gitignore
+├── mvnw                        # Script Maven Wrapper para Linux/Mac
+├── mvnw.cmd                    # Script Maven Wrapper para Windows
+└── pom.xml                     # Archivo de configuración y dependencias Maven
 └── README.md
 ```
 
@@ -303,7 +378,7 @@ Un pipeline en Jenkins podría incluir pasos como:
 
 1. Checkout del código
 2. `mvn clean install`
-3. `mvn test`
+3. `.\mvnw.cmd verify o .\mvnw.cmd clean test`
 4. Publicación de resultados
 
 ---
