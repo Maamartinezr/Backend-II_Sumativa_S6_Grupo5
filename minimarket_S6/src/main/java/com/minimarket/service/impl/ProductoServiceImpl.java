@@ -4,6 +4,8 @@ import com.minimarket.entity.Producto;
 import com.minimarket.repository.ProductoRepository;
 import com.minimarket.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +19,11 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public List<Producto> findAll() {
         return productoRepository.findAll();
+    }
+
+    @Override
+    public Page<Producto> findAll(Pageable pageable) {
+        return productoRepository.findAll(pageable);
     }
 
     @Override
