@@ -4,11 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.minimarket.controller.InventarioController;
 import com.minimarket.controller.ProductoController;
 import com.minimarket.controller.VentaController;
+import com.minimarket.dto.ProductoDTO;
+import com.minimarket.entity.Categoria;
 import com.minimarket.entity.Inventario;
 import com.minimarket.entity.Producto;
 import com.minimarket.entity.Venta;
 import com.minimarket.security.config.SecurityConfig;
 import com.minimarket.security.service.CustomUserDetailsService;
+import com.minimarket.service.CategoriaService;
 import com.minimarket.service.InventarioService;
 import com.minimarket.service.ProductoService;
 import com.minimarket.service.VentaService;
@@ -43,6 +46,9 @@ class SecurityConfigAuthorizationTest {
     private ProductoService productoService;
 
     @MockBean
+    private CategoriaService categoriaService;
+
+    @MockBean
     private InventarioService inventarioService;
 
     @MockBean
@@ -55,7 +61,7 @@ class SecurityConfigAuthorizationTest {
     void actualizarProductoSinAutenticacionRedirigeAlLogin() throws Exception {
         mockMvc.perform(put("/api/productos/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(crearProducto())))
+                        .content(objectMapper.writeValueAsString(crearProductoDto())))
                 .andExpect(status().is3xxRedirection());
 
         verify(productoService, never()).save(any(Producto.class));
@@ -66,7 +72,7 @@ class SecurityConfigAuthorizationTest {
     void actualizarProductoConClienteAutenticadoRetornaForbidden() throws Exception {
         mockMvc.perform(put("/api/productos/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(crearProducto())))
+                        .content(objectMapper.writeValueAsString(crearProductoDto())))
                 .andExpect(status().isForbidden());
 
         verify(productoService, never()).save(any(Producto.class));
@@ -77,11 +83,12 @@ class SecurityConfigAuthorizationTest {
     void actualizarProductoConAdministradorPermiteOperacion() throws Exception {
         Producto producto = crearProducto();
         when(productoService.findById(1L)).thenReturn(producto);
+        when(categoriaService.findById(1L)).thenReturn(crearCategoria());
         when(productoService.save(any(Producto.class))).thenReturn(producto);
 
         mockMvc.perform(put("/api/productos/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(producto)))
+                        .content(objectMapper.writeValueAsString(crearProductoDto())))
                 .andExpect(status().isOk());
 
         verify(productoService).save(any(Producto.class));
@@ -143,7 +150,25 @@ class SecurityConfigAuthorizationTest {
         producto.setNombre("Arroz integral");
         producto.setPrecio(1500.0);
         producto.setStock(20);
+        producto.setCategoria(crearCategoria());
         return producto;
+    }
+
+    private ProductoDTO crearProductoDto() {
+        ProductoDTO productoDto = new ProductoDTO();
+        productoDto.setId(1L);
+        productoDto.setNombre("Arroz integral");
+        productoDto.setPrecio(1500.0);
+        productoDto.setStock(20);
+        productoDto.setCategoriaId(1L);
+        return productoDto;
+    }
+
+    private Categoria crearCategoria() {
+        Categoria categoria = new Categoria();
+        categoria.setId(1L);
+        categoria.setNombre("Abarrotes");
+        return categoria;
     }
 
     private Inventario crearInventario() {

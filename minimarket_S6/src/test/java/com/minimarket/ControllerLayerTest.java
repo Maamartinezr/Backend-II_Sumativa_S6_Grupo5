@@ -8,6 +8,8 @@ import com.minimarket.controller.InventarioController;
 import com.minimarket.controller.ProductoController;
 import com.minimarket.controller.UsuarioController;
 import com.minimarket.controller.VentaController;
+import com.minimarket.dto.CarritoDTO;
+import com.minimarket.dto.ProductoDTO;
 import com.minimarket.entity.Carrito;
 import com.minimarket.entity.Categoria;
 import com.minimarket.entity.DetalleVenta;
@@ -27,6 +29,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -87,14 +92,16 @@ class ControllerLayerTest {
 
     @Test
     void listarProductosRetornaProductosDelServicio() throws Exception {
-        when(productoService.findAll()).thenReturn(List.of(crearProducto(1L), crearProducto(2L)));
+        when(productoService.findAll(any(Pageable.class)))
+                .thenReturn(new PageImpl<>(List.of(crearProducto(1L), crearProducto(2L)), PageRequest.of(0, 2), 2));
 
-        mockMvc.perform(get("/api/productos"))
+        mockMvc.perform(get("/api/productos?page=0&size=2"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].nombre").value("Arroz 1"));
+                .andExpect(jsonPath("$.content", hasSize(2)))
+                .andExpect(jsonPath("$.content[0].nombre").value("Arroz 1"))
+                .andExpect(jsonPath("$.totalElements").value(2));
 
-        verify(productoService).findAll();
+        verify(productoService).findAll(any(Pageable.class));
     }
 
     @Test
@@ -103,7 +110,8 @@ class ControllerLayerTest {
 
         mockMvc.perform(get("/api/productos/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1));
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.categoriaId").value(1));
 
         verify(productoService).findById(1L);
     }
@@ -119,12 +127,13 @@ class ControllerLayerTest {
     @Test
     void guardarProductoRetornaProductoPersistido() throws Exception {
         Producto producto = crearProducto(1L);
+        when(categoriaService.findById(1L)).thenReturn(crearCategoria(1L));
         when(productoService.save(any(Producto.class))).thenReturn(producto);
 
         mockMvc.perform(post("/api/productos")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(producto)))
-                .andExpect(status().isOk())
+                        .content(objectMapper.writeValueAsString(crearProductoDto(null))))
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.nombre").value("Arroz 1"));
 
         verify(productoService).save(any(Producto.class));
@@ -134,11 +143,12 @@ class ControllerLayerTest {
     void actualizarProductoExistenteRetornaOkYFijaId() throws Exception {
         Producto producto = crearProducto(1L);
         when(productoService.findById(1L)).thenReturn(producto);
+        when(categoriaService.findById(1L)).thenReturn(crearCategoria(1L));
         when(productoService.save(any(Producto.class))).thenReturn(producto);
 
         mockMvc.perform(put("/api/productos/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(producto)))
+                        .content(objectMapper.writeValueAsString(crearProductoDto(1L))))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1));
 
@@ -151,10 +161,24 @@ class ControllerLayerTest {
 
         mockMvc.perform(put("/api/productos/99")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(crearProducto(99L))))
+                        .content(objectMapper.writeValueAsString(crearProductoDto(99L))))
                 .andExpect(status().isNotFound());
 
         verify(productoService, never()).save(any(Producto.class));
+    }
+
+    @Test
+    void guardarProductoInvalidoRetornaBadRequestConErroresDeValidacion() throws Exception {
+        ProductoDTO productoDto = crearProductoDto(null);
+        productoDto.setNombre(" ");
+        productoDto.setPrecio(-1.0);
+
+        mockMvc.perform(post("/api/productos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(productoDto)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.validationErrors.nombre").exists())
+                .andExpect(jsonPath("$.validationErrors.precio").exists());
     }
 
     @Test
@@ -279,14 +303,19 @@ class ControllerLayerTest {
     @Test
     void carritoControllerCubreCrudCompleto() throws Exception {
         Carrito carrito = crearCarrito(1L);
-        when(carritoService.findAll()).thenReturn(List.of(carrito));
+        when(carritoService.findAll(any(Pageable.class)))
+                .thenReturn(new PageImpl<>(List.of(carrito), PageRequest.of(0, 1), 1));
         when(carritoService.findById(1L)).thenReturn(carrito);
         when(carritoService.findById(99L)).thenReturn(null);
+        when(usuarioService.findById(1L)).thenReturn(Optional.of(crearUsuario(1L)));
+        when(productoService.findById(1L)).thenReturn(crearProducto(1L));
         when(carritoService.save(any(Carrito.class))).thenReturn(carrito);
 
-        mockMvc.perform(get("/api/carrito"))
+        mockMvc.perform(get("/api/carrito?page=0&size=1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(1)));
+                .andExpect(jsonPath("$.content", hasSize(1)))
+                .andExpect(jsonPath("$.content[0].productoId").value(1))
+                .andExpect(jsonPath("$.totalElements").value(1));
         mockMvc.perform(get("/api/carrito/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.cantidad").value(2));
@@ -294,15 +323,15 @@ class ControllerLayerTest {
                 .andExpect(status().isNotFound());
         mockMvc.perform(post("/api/carrito")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(carrito)))
-                .andExpect(status().isOk());
+                        .content(objectMapper.writeValueAsString(crearCarritoDto(null))))
+                .andExpect(status().isCreated());
         mockMvc.perform(put("/api/carrito/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(carrito)))
+                        .content(objectMapper.writeValueAsString(crearCarritoDto(1L))))
                 .andExpect(status().isOk());
         mockMvc.perform(put("/api/carrito/99")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(carrito)))
+                        .content(objectMapper.writeValueAsString(crearCarritoDto(99L))))
                 .andExpect(status().isNotFound());
         mockMvc.perform(delete("/api/carrito/1"))
                 .andExpect(status().isNoContent());
@@ -310,6 +339,20 @@ class ControllerLayerTest {
                 .andExpect(status().isNotFound());
 
         verify(carritoService).deleteById(1L);
+    }
+
+    @Test
+    void guardarCarritoInvalidoRetornaBadRequestConErroresDeValidacion() throws Exception {
+        CarritoDTO carritoDto = crearCarritoDto(null);
+        carritoDto.setCantidad(0);
+        carritoDto.setProductoId(null);
+
+        mockMvc.perform(post("/api/carrito")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(carritoDto)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.validationErrors.cantidad").exists())
+                .andExpect(jsonPath("$.validationErrors.productoId").exists());
     }
 
     @Test
@@ -432,6 +475,25 @@ class ControllerLayerTest {
         carrito.setProducto(crearProducto(1L));
         carrito.setCantidad(2);
         return carrito;
+    }
+
+    private ProductoDTO crearProductoDto(Long id) {
+        ProductoDTO productoDto = new ProductoDTO();
+        productoDto.setId(id);
+        productoDto.setNombre("Arroz 1");
+        productoDto.setPrecio(1200.0);
+        productoDto.setStock(20);
+        productoDto.setCategoriaId(1L);
+        return productoDto;
+    }
+
+    private CarritoDTO crearCarritoDto(Long id) {
+        CarritoDTO carritoDto = new CarritoDTO();
+        carritoDto.setId(id);
+        carritoDto.setUsuarioId(1L);
+        carritoDto.setProductoId(1L);
+        carritoDto.setCantidad(2);
+        return carritoDto;
     }
 
     private Categoria crearCategoria(Long id) {

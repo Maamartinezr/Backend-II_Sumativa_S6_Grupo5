@@ -4,6 +4,8 @@ import com.minimarket.entity.Carrito;
 import com.minimarket.repository.CarritoRepository;
 import com.minimarket.service.CarritoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +26,11 @@ public class CarritoServiceImpl implements CarritoService {
     @Override
     public List<Carrito> findAll() {
         return carritoRepository.findAll();
+    }
+
+    @Override
+    public Page<Carrito> findAll(Pageable pageable) {
+        return carritoRepository.findAll(pageable);
     }
 
     @Override
