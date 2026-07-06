@@ -9,22 +9,22 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-<span class="nc" id="L12">public class OpenApiConfig {</span>
+<span class="fc" id="L12">public class OpenApiConfig {</span>
 
     @Bean
     public OpenAPI minimarketOpenApi() {
-<span class="nc" id="L16">        return new OpenAPI()</span>
-<span class="nc" id="L17">                .info(new Info()</span>
-<span class="nc" id="L18">                        .title(&quot;Minimarket API&quot;)</span>
-<span class="nc" id="L19">                        .description(&quot;Documentacion OpenAPI para la gestion de productos, carritos y otros recursos del minimarket.&quot;)</span>
-<span class="nc" id="L20">                        .version(&quot;v1&quot;))</span>
-<span class="nc" id="L21">                .components(new Components().addSecuritySchemes(&quot;bearerAuth&quot;,</span>
+<span class="fc" id="L16">        return new OpenAPI()</span>
+<span class="fc" id="L17">                .info(new Info()</span>
+<span class="fc" id="L18">                        .title(&quot;Minimarket API&quot;)</span>
+<span class="fc" id="L19">                        .description(&quot;Documentacion OpenAPI para la gestion de productos, carritos y otros recursos del minimarket.&quot;)</span>
+<span class="fc" id="L20">                        .version(&quot;v1&quot;))</span>
+<span class="fc" id="L21">                .components(new Components().addSecuritySchemes(&quot;bearerAuth&quot;,</span>
                         new SecurityScheme()
-<span class="nc" id="L23">                                .name(&quot;bearerAuth&quot;)</span>
-<span class="nc" id="L24">                                .type(SecurityScheme.Type.HTTP)</span>
-<span class="nc" id="L25">                                .scheme(&quot;bearer&quot;)</span>
-<span class="nc" id="L26">                                .bearerFormat(&quot;JWT&quot;)))</span>
-<span class="nc" id="L27">                .addSecurityItem(new SecurityRequirement().addList(&quot;bearerAuth&quot;));</span>
+<span class="fc" id="L23">                                .name(&quot;bearerAuth&quot;)</span>
+<span class="fc" id="L24">                                .type(SecurityScheme.Type.HTTP)</span>
+<span class="fc" id="L25">                                .scheme(&quot;bearer&quot;)</span>
+<span class="fc" id="L26">                                .bearerFormat(&quot;JWT&quot;)))</span>
+<span class="fc" id="L27">                .addSecurityItem(new SecurityRequirement().addList(&quot;bearerAuth&quot;));</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

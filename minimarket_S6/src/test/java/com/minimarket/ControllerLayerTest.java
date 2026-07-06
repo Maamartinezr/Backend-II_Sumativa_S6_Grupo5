@@ -17,6 +17,7 @@ import com.minimarket.entity.Inventario;
 import com.minimarket.entity.Producto;
 import com.minimarket.entity.Usuario;
 import com.minimarket.entity.Venta;
+import com.minimarket.security.filter.JwtAuthenticationFilter;
 import com.minimarket.service.CarritoService;
 import com.minimarket.service.CategoriaService;
 import com.minimarket.service.DetalleVentaService;
@@ -89,6 +90,9 @@ class ControllerLayerTest {
 
     @MockBean
     private DetalleVentaService detalleVentaService;
+
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Test
     void listarProductosRetornaProductosDelServicio() throws Exception {

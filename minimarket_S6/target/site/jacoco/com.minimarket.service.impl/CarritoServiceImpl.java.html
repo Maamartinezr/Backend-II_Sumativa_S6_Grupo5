@@ -18,7 +18,7 @@ import static com.minimarket.util.MinimarketConstants.ERROR_CARRITO_STOCK_OBLIGA
 import static com.minimarket.util.MinimarketConstants.ERROR_CARRITO_USUARIO_OBLIGATORIO;
 
 @Service
-<span class="nc" id="L21">public class CarritoServiceImpl implements CarritoService {</span>
+<span class="fc" id="L21">public class CarritoServiceImpl implements CarritoService {</span>
 
     @Autowired
     private CarritoRepository carritoRepository;
@@ -35,69 +35,69 @@ import static com.minimarket.util.MinimarketConstants.ERROR_CARRITO_USUARIO_OBLI
 
     @Override
     public Carrito findById(Long id) {
-<span class="nc" id="L38">        return carritoRepository.findById(id).orElse(null);</span>
+<span class="fc" id="L38">        return carritoRepository.findById(id).orElse(null);</span>
     }
 
     @Override
     public Carrito save(Carrito carrito) {
-<span class="nc" id="L43">        validarCarrito(carrito);</span>
-<span class="nc" id="L44">        return carritoRepository.save(carrito);</span>
+<span class="fc" id="L43">        validarCarrito(carrito);</span>
+<span class="fc" id="L44">        return carritoRepository.save(carrito);</span>
     }
 
     @Override
     public void deleteById(Long id) {
-<span class="nc" id="L49">        carritoRepository.deleteById(id);</span>
-<span class="nc" id="L50">    }</span>
+<span class="fc" id="L49">        carritoRepository.deleteById(id);</span>
+<span class="fc" id="L50">    }</span>
 
     @Override
     public List&lt;Carrito&gt; findByUsuarioId(Long usuarioId) {
-<span class="nc" id="L54">        return carritoRepository.findByUsuarioId(usuarioId);</span>
+<span class="fc" id="L54">        return carritoRepository.findByUsuarioId(usuarioId);</span>
     }
 
     private void validarCarrito(Carrito carrito) {
-<span class="nc bnc" id="L58" title="All 2 branches missed.">        if (carrito == null) {</span>
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">        if (carrito == null) {</span>
 <span class="nc" id="L59">            throw new IllegalArgumentException(ERROR_CARRITO_OBLIGATORIO);</span>
         }
 
-<span class="nc bnc" id="L62" title="All 2 branches missed.">        if (!tieneUsuarioValido(carrito)) {</span>
-<span class="nc" id="L63">            throw new IllegalArgumentException(ERROR_CARRITO_USUARIO_OBLIGATORIO);</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        if (!tieneUsuarioValido(carrito)) {</span>
+<span class="fc" id="L63">            throw new IllegalArgumentException(ERROR_CARRITO_USUARIO_OBLIGATORIO);</span>
         }
 
-<span class="nc bnc" id="L66" title="All 2 branches missed.">        if (!tieneProductoValido(carrito)) {</span>
-<span class="nc" id="L67">            throw new IllegalArgumentException(ERROR_CARRITO_PRODUCTO_OBLIGATORIO);</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        if (!tieneProductoValido(carrito)) {</span>
+<span class="fc" id="L67">            throw new IllegalArgumentException(ERROR_CARRITO_PRODUCTO_OBLIGATORIO);</span>
         }
 
-<span class="nc bnc" id="L70" title="All 2 branches missed.">        if (!cantidadSolicitadaValida(carrito)) {</span>
-<span class="nc" id="L71">            throw new IllegalArgumentException(ERROR_CARRITO_CANTIDAD_POSITIVA);</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">        if (!cantidadSolicitadaValida(carrito)) {</span>
+<span class="fc" id="L71">            throw new IllegalArgumentException(ERROR_CARRITO_CANTIDAD_POSITIVA);</span>
         }
 
-<span class="nc bnc" id="L74" title="All 2 branches missed.">        if (!stockInformado(carrito)) {</span>
-<span class="nc" id="L75">            throw new IllegalArgumentException(ERROR_CARRITO_STOCK_OBLIGATORIO);</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        if (!stockInformado(carrito)) {</span>
+<span class="fc" id="L75">            throw new IllegalArgumentException(ERROR_CARRITO_STOCK_OBLIGATORIO);</span>
         }
 
-<span class="nc bnc" id="L78" title="All 2 branches missed.">        if (!tieneStockSuficiente(carrito)) {</span>
-<span class="nc" id="L79">            throw new IllegalArgumentException(ERROR_CARRITO_STOCK_INSUFICIENTE);</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        if (!tieneStockSuficiente(carrito)) {</span>
+<span class="fc" id="L79">            throw new IllegalArgumentException(ERROR_CARRITO_STOCK_INSUFICIENTE);</span>
         }
-<span class="nc" id="L81">    }</span>
+<span class="fc" id="L81">    }</span>
 
     private boolean tieneUsuarioValido(Carrito carrito) {
-<span class="nc bnc" id="L84" title="All 4 branches missed.">        return carrito.getUsuario() != null &amp;&amp; carrito.getUsuario().getId() != null;</span>
+<span class="fc bfc" id="L84" title="All 4 branches covered.">        return carrito.getUsuario() != null &amp;&amp; carrito.getUsuario().getId() != null;</span>
     }
 
     private boolean tieneProductoValido(Carrito carrito) {
-<span class="nc bnc" id="L88" title="All 4 branches missed.">        return carrito.getProducto() != null &amp;&amp; carrito.getProducto().getId() != null;</span>
+<span class="fc bfc" id="L88" title="All 4 branches covered.">        return carrito.getProducto() != null &amp;&amp; carrito.getProducto().getId() != null;</span>
     }
 
     private boolean cantidadSolicitadaValida(Carrito carrito) {
-<span class="nc bnc" id="L92" title="All 4 branches missed.">        return carrito.getCantidad() != null &amp;&amp; carrito.getCantidad() &gt; 0;</span>
+<span class="pc bpc" id="L92" title="1 of 4 branches missed.">        return carrito.getCantidad() != null &amp;&amp; carrito.getCantidad() &gt; 0;</span>
     }
 
     private boolean stockInformado(Carrito carrito) {
-<span class="nc bnc" id="L96" title="All 2 branches missed.">        return carrito.getProducto().getStock() != null;</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">        return carrito.getProducto().getStock() != null;</span>
     }
 
     private boolean tieneStockSuficiente(Carrito carrito) {
-<span class="nc bnc" id="L100" title="All 2 branches missed.">        return carrito.getProducto().getStock() &gt;= carrito.getCantidad();</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">        return carrito.getProducto().getStock() &gt;= carrito.getCantidad();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
