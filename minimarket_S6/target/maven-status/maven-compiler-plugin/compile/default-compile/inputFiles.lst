@@ -1,5 +1,6 @@
 /home/runner/work/Backend-II_Sumativa_S6_Grupo5/Backend-II_Sumativa_S6_Grupo5/minimarket_S6/src/main/java/com/minimarket/MinimarketApplication.java
 /home/runner/work/Backend-II_Sumativa_S6_Grupo5/Backend-II_Sumativa_S6_Grupo5/minimarket_S6/src/main/java/com/minimarket/config/OpenApiConfig.java
+/home/runner/work/Backend-II_Sumativa_S6_Grupo5/Backend-II_Sumativa_S6_Grupo5/minimarket_S6/src/main/java/com/minimarket/controller/AuthController.java
 /home/runner/work/Backend-II_Sumativa_S6_Grupo5/Backend-II_Sumativa_S6_Grupo5/minimarket_S6/src/main/java/com/minimarket/controller/CarritoController.java
 /home/runner/work/Backend-II_Sumativa_S6_Grupo5/Backend-II_Sumativa_S6_Grupo5/minimarket_S6/src/main/java/com/minimarket/controller/CategoriaController.java
 /home/runner/work/Backend-II_Sumativa_S6_Grupo5/Backend-II_Sumativa_S6_Grupo5/minimarket_S6/src/main/java/com/minimarket/controller/DetalleVentaController.java
@@ -40,6 +41,8 @@
 /home/runner/work/Backend-II_Sumativa_S6_Grupo5/Backend-II_Sumativa_S6_Grupo5/minimarket_S6/src/main/java/com/minimarket/repository/UsuarioRepository.java
 /home/runner/work/Backend-II_Sumativa_S6_Grupo5/Backend-II_Sumativa_S6_Grupo5/minimarket_S6/src/main/java/com/minimarket/repository/VentaRepository.java
 /home/runner/work/Backend-II_Sumativa_S6_Grupo5/Backend-II_Sumativa_S6_Grupo5/minimarket_S6/src/main/java/com/minimarket/security/config/SecurityConfig.java
+/home/runner/work/Backend-II_Sumativa_S6_Grupo5/Backend-II_Sumativa_S6_Grupo5/minimarket_S6/src/main/java/com/minimarket/security/filter/JwtAuthenticationFilter.java
+/home/runner/work/Backend-II_Sumativa_S6_Grupo5/Backend-II_Sumativa_S6_Grupo5/minimarket_S6/src/main/java/com/minimarket/security/model/AuthResponse.java
 /home/runner/work/Backend-II_Sumativa_S6_Grupo5/Backend-II_Sumativa_S6_Grupo5/minimarket_S6/src/main/java/com/minimarket/security/model/CustomUserDetails.java
 /home/runner/work/Backend-II_Sumativa_S6_Grupo5/Backend-II_Sumativa_S6_Grupo5/minimarket_S6/src/main/java/com/minimarket/security/model/LoginRequest.java
 /home/runner/work/Backend-II_Sumativa_S6_Grupo5/Backend-II_Sumativa_S6_Grupo5/minimarket_S6/src/main/java/com/minimarket/security/service/CustomUserDetailsService.java

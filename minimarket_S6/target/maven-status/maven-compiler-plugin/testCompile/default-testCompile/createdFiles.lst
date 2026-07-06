@@ -5,6 +5,7 @@ com/minimarket/DetalleVentaTest.class
 com/minimarket/ControllerLayerTest.class
 com/minimarket/InventarioServiceImplTest.class
 com/minimarket/EntityJpaIdentityTest.class
+com/minimarket/JwtAuthenticationIntegrationTest.class
 com/minimarket/CustomUserDetailsServiceTest.class
 com/minimarket/MinimarketApplicationTests.class
 com/minimarket/VentaServiceImplTest.class

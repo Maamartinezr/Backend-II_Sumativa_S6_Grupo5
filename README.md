@@ -354,15 +354,38 @@ Para ejecutar el ciclo completo de validación del proyecto (compilación, prueb
 El proyecto dispone de una configuración de seguridad que:
 
 - Permite acceso libre a rutas públicas
-- Protege el resto de la API
-- Usa autenticación mediante Spring Security
+- Permite autenticación JWT mediante `POST /api/auth/login`
+- Protege el resto de la API con token JWT y reglas por rol
 
-Si deseas ampliar esta funcionalidad, puedes implementar:
+### Obtener token JWT
 
-- JWT completo
-- Roles de usuario más detallados
-- Autorización basada en perfiles
-- Protección adicional para endpoints críticos
+1. Ejecuta un login:
+
+```http
+POST http://localhost:9090/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "Admin123*"
+}
+```
+
+2. Copia el valor `token` de la respuesta y úsalo en el encabezado `Authorization` con prefijo `Bearer`.
+
+### Swagger UI y OpenAPI
+
+- Swagger UI: `http://localhost:9090/swagger-ui.html`
+- OpenAPI JSON: `http://localhost:9090/v3/api-docs`
+
+En Swagger, usa **Authorize** y pega el token JWT para probar endpoints protegidos.
+
+### Postman
+
+1. Importa en Postman la URL `http://localhost:9090/v3/api-docs`.
+2. Usa `POST /api/auth/login` para obtener token.
+3. Configura la colección o request en la pestaña **Authorization** con el tipo de token JWT.
+4. Ejecuta endpoints protegidos (ejemplo: `/api/productos`, `/api/inventario`, `/api/ventas`).
 
 ---
 

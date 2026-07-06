@@ -10,7 +10,9 @@ import com.minimarket.entity.Inventario;
 import com.minimarket.entity.Producto;
 import com.minimarket.entity.Venta;
 import com.minimarket.security.config.SecurityConfig;
+import com.minimarket.security.filter.JwtAuthenticationFilter;
 import com.minimarket.security.service.CustomUserDetailsService;
+import com.minimarket.security.util.JwtUtil;
 import com.minimarket.service.CategoriaService;
 import com.minimarket.service.InventarioService;
 import com.minimarket.service.ProductoService;
@@ -33,7 +35,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = {ProductoController.class, InventarioController.class, VentaController.class})
-@Import(SecurityConfig.class)
+@Import({SecurityConfig.class, JwtAuthenticationFilter.class})
 class SecurityConfigAuthorizationTest {
 
     @Autowired
@@ -57,12 +59,15 @@ class SecurityConfigAuthorizationTest {
     @MockBean
     private CustomUserDetailsService customUserDetailsService;
 
+    @MockBean
+    private JwtUtil jwtUtil;
+
     @Test
-    void actualizarProductoSinAutenticacionRedirigeAlLogin() throws Exception {
+    void actualizarProductoSinAutenticacionRetornaUnauthorized() throws Exception {
         mockMvc.perform(put("/api/productos/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(crearProductoDto())))
-                .andExpect(status().is3xxRedirection());
+                .andExpect(status().isUnauthorized());
 
         verify(productoService, never()).save(any(Producto.class));
     }

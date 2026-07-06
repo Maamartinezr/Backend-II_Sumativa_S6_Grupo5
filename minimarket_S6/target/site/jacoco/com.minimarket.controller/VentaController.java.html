@@ -2,6 +2,7 @@
 
 import com.minimarket.entity.Venta;
 import com.minimarket.service.VentaService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,25 +11,26 @@ import java.util.List;
 
 @RestController
 @RequestMapping(&quot;/api/ventas&quot;)
-<span class="fc" id="L13">public class VentaController {</span>
+@SecurityRequirement(name = &quot;bearerAuth&quot;)
+<span class="fc" id="L15">public class VentaController {</span>
 
     @Autowired
     private VentaService ventaService;
 
     @GetMapping
     public List&lt;Venta&gt; listarVentas() {
-<span class="fc" id="L20">        return ventaService.findAll();</span>
+<span class="nc" id="L22">        return ventaService.findAll();</span>
     }
 
     @GetMapping(&quot;/{id}&quot;)
     public ResponseEntity&lt;Venta&gt; obtenerVentaPorId(@PathVariable Long id) {
-<span class="fc" id="L25">        Venta venta = ventaService.findById(id);</span>
-<span class="fc bfc" id="L26" title="All 2 branches covered.">        return (venta != null) ? ResponseEntity.ok(venta) : ResponseEntity.notFound().build();</span>
+<span class="nc" id="L27">        Venta venta = ventaService.findById(id);</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">        return (venta != null) ? ResponseEntity.ok(venta) : ResponseEntity.notFound().build();</span>
     }
 
     @PostMapping
     public Venta guardarVenta(@RequestBody Venta venta) {
-<span class="fc" id="L31">        return ventaService.registrarVenta(venta);</span>
+<span class="fc" id="L33">        return ventaService.registrarVenta(venta);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

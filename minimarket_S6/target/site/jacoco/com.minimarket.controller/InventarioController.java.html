@@ -2,6 +2,7 @@
 
 import com.minimarket.entity.Inventario;
 import com.minimarket.service.InventarioService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,45 +11,46 @@ import java.util.List;
 
 @RestController
 @RequestMapping(&quot;/api/inventario&quot;)
-<span class="fc" id="L13">public class InventarioController {</span>
+@SecurityRequirement(name = &quot;bearerAuth&quot;)
+<span class="fc" id="L15">public class InventarioController {</span>
 
     @Autowired
     private InventarioService inventarioService;
 
     @GetMapping
     public List&lt;Inventario&gt; listarMovimientosDeInventario() {
-<span class="fc" id="L20">        return inventarioService.findAll();</span>
+<span class="nc" id="L22">        return inventarioService.findAll();</span>
     }
 
     @GetMapping(&quot;/{id}&quot;)
     public ResponseEntity&lt;Inventario&gt; obtenerMovimientoPorId(@PathVariable Long id) {
-<span class="fc" id="L25">        Inventario inventario = inventarioService.findById(id);</span>
-<span class="fc bfc" id="L26" title="All 2 branches covered.">        return (inventario != null) ? ResponseEntity.ok(inventario) : ResponseEntity.notFound().build();</span>
+<span class="nc" id="L27">        Inventario inventario = inventarioService.findById(id);</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">        return (inventario != null) ? ResponseEntity.ok(inventario) : ResponseEntity.notFound().build();</span>
     }
 
     @PostMapping
     public Inventario registrarMovimiento(@RequestBody Inventario inventario) {
-<span class="fc" id="L31">        return inventarioService.save(inventario);</span>
+<span class="fc" id="L33">        return inventarioService.save(inventario);</span>
     }
 
     @PutMapping(&quot;/{id}&quot;)
     public ResponseEntity&lt;Inventario&gt; actualizarMovimiento(@PathVariable Long id, @RequestBody Inventario inventario) {
-<span class="fc" id="L36">        Inventario existente = inventarioService.findById(id);</span>
-<span class="fc bfc" id="L37" title="All 2 branches covered.">        if (existente != null) {</span>
-<span class="fc" id="L38">            inventario.setId(id);</span>
-<span class="fc" id="L39">            return ResponseEntity.ok(inventarioService.save(inventario));</span>
+<span class="nc" id="L38">        Inventario existente = inventarioService.findById(id);</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">        if (existente != null) {</span>
+<span class="nc" id="L40">            inventario.setId(id);</span>
+<span class="nc" id="L41">            return ResponseEntity.ok(inventarioService.save(inventario));</span>
         }
-<span class="fc" id="L41">        return ResponseEntity.notFound().build();</span>
+<span class="nc" id="L43">        return ResponseEntity.notFound().build();</span>
     }
 
     @DeleteMapping(&quot;/{id}&quot;)
     public ResponseEntity&lt;Void&gt; eliminarMovimiento(@PathVariable Long id) {
-<span class="fc" id="L46">        Inventario inventario = inventarioService.findById(id);</span>
-<span class="fc bfc" id="L47" title="All 2 branches covered.">        if (inventario != null) {</span>
-<span class="fc" id="L48">            inventarioService.deleteById(id);</span>
-<span class="fc" id="L49">            return ResponseEntity.noContent().build();</span>
+<span class="nc" id="L48">        Inventario inventario = inventarioService.findById(id);</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        if (inventario != null) {</span>
+<span class="nc" id="L50">            inventarioService.deleteById(id);</span>
+<span class="nc" id="L51">            return ResponseEntity.noContent().build();</span>
         }
-<span class="fc" id="L51">        return ResponseEntity.notFound().build();</span>
+<span class="nc" id="L53">        return ResponseEntity.notFound().build();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
