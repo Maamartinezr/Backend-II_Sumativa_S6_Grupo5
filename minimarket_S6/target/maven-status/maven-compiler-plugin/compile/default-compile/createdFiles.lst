@@ -13,13 +13,10 @@ com/minimarket/controller/InventarioController.class
 com/minimarket/dto/InventarioDTO.class
 com/minimarket/dto/page/ProductoPageResponse.class
 com/minimarket/security/model/CustomUserDetails.class
-com/minimarket/security/filter/JwtAuthenticationFilter.class
 com/minimarket/repository/VentaRepository.class
 com/minimarket/security/config/SecurityConfig.class
 com/minimarket/util/MinimarketConstants.class
-com/minimarket/security/model/AuthResponse.class
 com/minimarket/service/CarritoService.class
-com/minimarket/controller/AuthController.class
 com/minimarket/service/UsuarioService.class
 com/minimarket/controller/VentaController.class
 com/minimarket/repository/CategoriaRepository.class
