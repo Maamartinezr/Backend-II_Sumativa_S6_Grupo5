@@ -43,6 +43,7 @@ com/minimarket/security/model/LoginRequest.class
 com/minimarket/service/RolService.class
 com/minimarket/entity/Inventario.class
 com/minimarket/controller/CategoriaController.class
+com/minimarket/dto/PageResponse.class
 com/minimarket/service/impl/CarritoServiceImpl.class
 com/minimarket/controller/CarritoController.class
 com/minimarket/service/CategoriaService.class

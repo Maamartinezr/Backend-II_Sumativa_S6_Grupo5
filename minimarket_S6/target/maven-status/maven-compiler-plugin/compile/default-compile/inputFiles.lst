@@ -13,6 +13,7 @@
 /home/runner/work/Backend-II_Sumativa_S6_Grupo5/Backend-II_Sumativa_S6_Grupo5/minimarket_S6/src/main/java/com/minimarket/dto/DetalleVentaDTO.java
 /home/runner/work/Backend-II_Sumativa_S6_Grupo5/Backend-II_Sumativa_S6_Grupo5/minimarket_S6/src/main/java/com/minimarket/dto/ErrorResponseDTO.java
 /home/runner/work/Backend-II_Sumativa_S6_Grupo5/Backend-II_Sumativa_S6_Grupo5/minimarket_S6/src/main/java/com/minimarket/dto/InventarioDTO.java
+/home/runner/work/Backend-II_Sumativa_S6_Grupo5/Backend-II_Sumativa_S6_Grupo5/minimarket_S6/src/main/java/com/minimarket/dto/PageResponse.java
 /home/runner/work/Backend-II_Sumativa_S6_Grupo5/Backend-II_Sumativa_S6_Grupo5/minimarket_S6/src/main/java/com/minimarket/dto/ProductoDTO.java
 /home/runner/work/Backend-II_Sumativa_S6_Grupo5/Backend-II_Sumativa_S6_Grupo5/minimarket_S6/src/main/java/com/minimarket/dto/RolDTO.java
 /home/runner/work/Backend-II_Sumativa_S6_Grupo5/Backend-II_Sumativa_S6_Grupo5/minimarket_S6/src/main/java/com/minimarket/dto/UsuarioDTO.java

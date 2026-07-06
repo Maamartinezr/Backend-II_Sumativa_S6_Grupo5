@@ -2,6 +2,7 @@
 
 import com.minimarket.dto.CarritoDTO;
 import com.minimarket.dto.ErrorResponseDTO;
+import com.minimarket.dto.PageResponse;
 import com.minimarket.dto.page.CarritoPageResponse;
 import com.minimarket.entity.Carrito;
 import com.minimarket.entity.Producto;
@@ -42,7 +43,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(&quot;/api/carrito&quot;)
 @Tag(name = &quot;Carrito&quot;, description = &quot;Operaciones para administrar el carrito de compras&quot;)
 @SecurityRequirement(name = &quot;bearerAuth&quot;)
-<span class="fc" id="L45">public class CarritoController {</span>
+<span class="fc" id="L46">public class CarritoController {</span>
 
     private static final String CARRITO_REQUEST_EXAMPLE = &quot;&quot;&quot;
             {
@@ -111,9 +112,9 @@ import org.springframework.web.bind.annotation.RestController;
                             schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @GetMapping
-    public ResponseEntity&lt;Page&lt;CarritoDTO&gt;&gt; listarCarrito(@ParameterObject Pageable pageable) {
-<span class="fc" id="L115">        Page&lt;CarritoDTO&gt; carritos = carritoService.findAll(pageable).map(EntityDtoMapper::toCarritoDto);</span>
-<span class="fc" id="L116">        return ResponseEntity.ok(carritos);</span>
+    public ResponseEntity&lt;PageResponse&lt;CarritoDTO&gt;&gt; listarCarrito(@ParameterObject Pageable pageable) {
+<span class="fc" id="L116">        Page&lt;CarritoDTO&gt; carritos = carritoService.findAll(pageable).map(EntityDtoMapper::toCarritoDto);</span>
+<span class="fc" id="L117">        return ResponseEntity.ok(PageResponse.from(carritos));</span>
     }
 
     @Operation(
@@ -134,7 +135,7 @@ import org.springframework.web.bind.annotation.RestController;
     public ResponseEntity&lt;CarritoDTO&gt; obtenerCarritoPorId(
             @Parameter(in = ParameterIn.PATH, description = &quot;Identificador unico del item del carrito&quot;, example = &quot;1&quot;)
             @PathVariable Long id) {
-<span class="fc" id="L137">        return ResponseEntity.ok(EntityDtoMapper.toCarritoDto(obtenerCarrito(id)));</span>
+<span class="fc" id="L138">        return ResponseEntity.ok(EntityDtoMapper.toCarritoDto(obtenerCarrito(id)));</span>
     }
 
     @Operation(
@@ -159,10 +160,10 @@ import org.springframework.web.bind.annotation.RestController;
                     examples = @ExampleObject(value = CARRITO_REQUEST_EXAMPLE)))
     @PostMapping
     public ResponseEntity&lt;CarritoDTO&gt; agregarProductoAlCarrito(@Valid @RequestBody CarritoDTO carritoDto) {
-<span class="fc" id="L162">        Usuario usuario = obtenerUsuario(carritoDto.getUsuarioId());</span>
-<span class="fc" id="L163">        Producto producto = obtenerProducto(carritoDto.getProductoId());</span>
-<span class="fc" id="L164">        Carrito guardado = carritoService.save(EntityDtoMapper.toCarritoEntity(carritoDto, usuario, producto));</span>
-<span class="fc" id="L165">        return ResponseEntity.status(HttpStatus.CREATED).body(EntityDtoMapper.toCarritoDto(guardado));</span>
+<span class="fc" id="L163">        Usuario usuario = obtenerUsuario(carritoDto.getUsuarioId());</span>
+<span class="fc" id="L164">        Producto producto = obtenerProducto(carritoDto.getProductoId());</span>
+<span class="fc" id="L165">        Carrito guardado = carritoService.save(EntityDtoMapper.toCarritoEntity(carritoDto, usuario, producto));</span>
+<span class="fc" id="L166">        return ResponseEntity.status(HttpStatus.CREATED).body(EntityDtoMapper.toCarritoDto(guardado));</span>
     }
 
     @Operation(
@@ -190,12 +191,12 @@ import org.springframework.web.bind.annotation.RestController;
             @Parameter(in = ParameterIn.PATH, description = &quot;Identificador unico del item del carrito&quot;, example = &quot;1&quot;)
             @PathVariable Long id,
             @Valid @RequestBody CarritoDTO carritoDto) {
-<span class="fc" id="L193">        obtenerCarrito(id);</span>
-<span class="fc" id="L194">        Usuario usuario = obtenerUsuario(carritoDto.getUsuarioId());</span>
-<span class="fc" id="L195">        Producto producto = obtenerProducto(carritoDto.getProductoId());</span>
-<span class="fc" id="L196">        Carrito carrito = EntityDtoMapper.toCarritoEntity(carritoDto, usuario, producto);</span>
-<span class="fc" id="L197">        carrito.setId(id);</span>
-<span class="fc" id="L198">        return ResponseEntity.ok(EntityDtoMapper.toCarritoDto(carritoService.save(carrito)));</span>
+<span class="fc" id="L194">        obtenerCarrito(id);</span>
+<span class="fc" id="L195">        Usuario usuario = obtenerUsuario(carritoDto.getUsuarioId());</span>
+<span class="fc" id="L196">        Producto producto = obtenerProducto(carritoDto.getProductoId());</span>
+<span class="fc" id="L197">        Carrito carrito = EntityDtoMapper.toCarritoEntity(carritoDto, usuario, producto);</span>
+<span class="fc" id="L198">        carrito.setId(id);</span>
+<span class="fc" id="L199">        return ResponseEntity.ok(EntityDtoMapper.toCarritoDto(carritoService.save(carrito)));</span>
     }
 
     @Operation(
@@ -213,30 +214,30 @@ import org.springframework.web.bind.annotation.RestController;
     public ResponseEntity&lt;Void&gt; eliminarProductoDelCarrito(
             @Parameter(in = ParameterIn.PATH, description = &quot;Identificador unico del item del carrito&quot;, example = &quot;1&quot;)
             @PathVariable Long id) {
-<span class="fc" id="L216">        obtenerCarrito(id);</span>
-<span class="fc" id="L217">        carritoService.deleteById(id);</span>
-<span class="fc" id="L218">        return ResponseEntity.noContent().build();</span>
+<span class="fc" id="L217">        obtenerCarrito(id);</span>
+<span class="fc" id="L218">        carritoService.deleteById(id);</span>
+<span class="fc" id="L219">        return ResponseEntity.noContent().build();</span>
     }
 
     private Carrito obtenerCarrito(Long id) {
-<span class="fc" id="L222">        Carrito carrito = carritoService.findById(id);</span>
-<span class="fc bfc" id="L223" title="All 2 branches covered.">        if (carrito == null) {</span>
-<span class="fc" id="L224">            throw new ResourceNotFoundException(&quot;Carrito no encontrado con id: &quot; + id);</span>
+<span class="fc" id="L223">        Carrito carrito = carritoService.findById(id);</span>
+<span class="fc bfc" id="L224" title="All 2 branches covered.">        if (carrito == null) {</span>
+<span class="fc" id="L225">            throw new ResourceNotFoundException(&quot;Carrito no encontrado con id: &quot; + id);</span>
         }
-<span class="fc" id="L226">        return carrito;</span>
+<span class="fc" id="L227">        return carrito;</span>
     }
 
     private Usuario obtenerUsuario(Long id) {
-<span class="fc" id="L230">        return usuarioService.findById(id)</span>
-<span class="pc" id="L231">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Usuario no encontrado con id: &quot; + id));</span>
+<span class="fc" id="L231">        return usuarioService.findById(id)</span>
+<span class="pc" id="L232">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Usuario no encontrado con id: &quot; + id));</span>
     }
 
     private Producto obtenerProducto(Long id) {
-<span class="fc" id="L235">        Producto producto = productoService.findById(id);</span>
-<span class="pc bpc" id="L236" title="1 of 2 branches missed.">        if (producto == null) {</span>
-<span class="nc" id="L237">            throw new ResourceNotFoundException(&quot;Producto no encontrado con id: &quot; + id);</span>
+<span class="fc" id="L236">        Producto producto = productoService.findById(id);</span>
+<span class="pc bpc" id="L237" title="1 of 2 branches missed.">        if (producto == null) {</span>
+<span class="nc" id="L238">            throw new ResourceNotFoundException(&quot;Producto no encontrado con id: &quot; + id);</span>
         }
-<span class="fc" id="L239">        return producto;</span>
+<span class="fc" id="L240">        return producto;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
