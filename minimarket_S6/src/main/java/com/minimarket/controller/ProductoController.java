@@ -1,6 +1,7 @@
 package com.minimarket.controller;
 
 import com.minimarket.dto.ErrorResponseDTO;
+import com.minimarket.dto.PageResponse;
 import com.minimarket.dto.ProductoDTO;
 import com.minimarket.dto.page.ProductoPageResponse;
 import com.minimarket.entity.Categoria;
@@ -109,9 +110,9 @@ public class ProductoController {
                             schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @GetMapping
-    public ResponseEntity<Page<ProductoDTO>> listarProductos(@ParameterObject Pageable pageable) {
+    public ResponseEntity<PageResponse<ProductoDTO>> listarProductos(@ParameterObject Pageable pageable) {
         Page<ProductoDTO> productos = productoService.findAll(pageable).map(EntityDtoMapper::toProductoDto);
-        return ResponseEntity.ok(productos);
+        return ResponseEntity.ok(PageResponse.from(productos));
     }
 
     @Operation(
